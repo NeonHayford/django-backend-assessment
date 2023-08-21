@@ -37,9 +37,9 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    full_name = models.CharField(max_length = 255)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=255)
     username = None
     groups = None
     user_permissions = None
@@ -47,11 +47,15 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS = []
     objects = CustomUserManager()
 
+    def save(self, *args, **kwargs):
+        self.full_name = f'{self.first_name} {self.last_name}'
+        super(CustomUser, self).save(*args, **kwargs)
 
     def __str__(self):
-        self.full_name = '{0} {1}'.format(self.first_name, self.last_name)
-        return f'{self.full_name} {self.email}'
+        assert self.email == None
+        return f"{self.email} {self.full_name}"
 
+        
 
 class UserProfile(models.Model):
     user= models.ForeignKey(CustomUser, on_delete=models.CASCADE)
