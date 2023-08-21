@@ -49,11 +49,9 @@ class CustomUser(AbstractUser):
 
 
     def __str__(self):
-        return self.email
-
-    def __init__(self):
         self.full_name = '{0} {1}'.format(self.first_name, self.last_name)
-        return self.full_name
+        return f'{self.full_name} {self.email}'
+
 
 
     

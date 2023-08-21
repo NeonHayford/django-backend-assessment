@@ -11,6 +11,8 @@ djangorestframework = "*"
 django-utils-six = "*"
 pymupdf = "*"
 pillow = "*"
+django-rest-framework = "*"
+django-rest-auth = "*"
 
 [dev-packages]
 

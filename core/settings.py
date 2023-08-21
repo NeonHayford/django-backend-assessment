@@ -43,11 +43,11 @@ INSTALLED_APPS = [
     'account',
     'media_app',
     # dependencies
+    'rest_auth',
     'djoser',
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders',
-    'djoser' 
+    'corsheaders'
 ]
 
 REST_FRAMEWORK = {
