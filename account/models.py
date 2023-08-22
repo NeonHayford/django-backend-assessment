@@ -60,4 +60,5 @@ class CustomUser(AbstractUser):
 class UserProfile(models.Model):
     user= models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     user_profile = models.ImageField(upload_to='user_profile/%y/%m/%d')
+    bio = models.TextField(related_name='user_bio')
     

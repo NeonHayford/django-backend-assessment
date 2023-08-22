@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # applications
     'account',
-    'media_app',
+    'follow_user',
+    'user_channels',
+    'user_groups',
     # dependencies
     'rest_auth',
     'djoser',
