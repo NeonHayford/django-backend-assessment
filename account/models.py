@@ -3,6 +3,8 @@ from django.db import models
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+# from django.contrib.auth.models import User
+from core.settings import AUTH_USER_MODEL
 
 class CustomUserManager(BaseUserManager):
     # pass
@@ -52,13 +54,13 @@ class CustomUser(AbstractUser):
         super(CustomUser, self).save(*args, **kwargs)
 
     def __str__(self):
-        assert self.email == None
-        return f"{self.email} {self.full_name}"
+        # assert self.email == None
+        return f"{self.full_name}"
 
         
 
 class UserProfile(models.Model):
-    user= models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user= models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='users_profile')
     user_profile = models.ImageField(upload_to='user_profile/%y/%m/%d')
-    bio = models.TextField(related_name='user_bio')
+    bio = models.TextField()
     

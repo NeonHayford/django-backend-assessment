@@ -6,5 +6,6 @@ urlpatterns = [
     path('create/profile', CreateUserProfileView.as_view(), name='create_profile'),
     path('update/<str:pk>/profile', UpdateUserProfileView.as_view(), name='update_profile'),
     path('delete/<str:pk>/profile', DeleteUserProfileView.as_view(), name='delete_profile'),
-    path('', include('media_app.urls'))
+    # path('', include('media_app.urls')),
+    # path('')
 ]

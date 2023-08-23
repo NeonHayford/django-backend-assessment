@@ -11,6 +11,7 @@ class RegisterSerializer(UserCreateSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    
     class Meta:
-        models = UserProfile
+        model = UserProfile
         fields = '__all__'

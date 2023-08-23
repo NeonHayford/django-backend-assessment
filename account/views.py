@@ -6,6 +6,8 @@ from .serializers import UserProfileSerializer
 from .models import UserProfile
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND
+from rest_framework.filters import SearchFilter
+from rest_framework.generics import ListCreateAPIView
 
 # Create your views here.
 class LogoutView(LogoutView):
@@ -13,7 +15,13 @@ class LogoutView(LogoutView):
     pass
 
 
-class CreateUserProfileView(APIView):
+class CreateUserProfileView(ListCreateAPIView):
+    # permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    filter_backends = [SearchFilter]
+    search_fields = ['user']
+
     def post(self, request):
         try:
             serializer = UserProfileSerializer(data = request.data)

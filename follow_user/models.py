@@ -1,8 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
+from core.settings import AUTH_USER_MODEL
+# from account.models import CustomUser
 
 # Create your models here.
-class follower(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owner')
-    following = models.ManyToManyField(User, through=user, symmetrical=False, related_name='follow_user')
-    
+class Follower(models.Model):
+    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='owner')
+    following = models.ManyToManyField(AUTH_USER_MODEL, related_name='follow_user')
+
+    def __str__(self):
+        return f'{self.user.username} follows {(((0)))}' #{self.following}

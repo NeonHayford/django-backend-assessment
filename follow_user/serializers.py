@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from .models import follower
+from .models import Follower
 
 class FollowerSerializer(serializers.Serializer):
 
     class Meta:
-        models = follower
+        models = Follower
         fields = '__all__'
