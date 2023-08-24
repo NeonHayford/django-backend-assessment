@@ -8,4 +8,4 @@ class Follower(models.Model):
     following = models.ManyToManyField(AUTH_USER_MODEL, related_name='follow_user')
 
     def __str__(self):
-        return f'{self.user.username} follows {(((0)))}' #{self.following}
+        return self.user.username
