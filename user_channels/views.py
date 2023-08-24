@@ -14,7 +14,7 @@ class CreateChannelView(ListCreateAPIView):
     queryset = Channel.objects.all()
     serializer_class = ChannelSerializer
     filter_backends = [SearchFilter]
-    search_fields = ['channel_name']
+    search_fields = ['Channel_name']
 
     def post(self, request):
         try:
@@ -22,7 +22,7 @@ class CreateChannelView(ListCreateAPIView):
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=HTTP_200_OK)
-            return Response(serializer.errors, status=HTTP_404_NOT_FOUND)
+            # return Response(serializer.errors, status=HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
         except Channel.DoesNotExist:
@@ -71,6 +71,7 @@ class DeleteChannelView(DestroyAPIView):
             return Response({'status':'Channel do not exist'}, status = HTTP_404_NOT_FOUND)
         except Exception as e: 
             return Response({'status': str(e)}, status = HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 class CreateChannelProfileView(ListCreateAPIView):
@@ -136,6 +137,7 @@ class DeleteChannelProfileView(DestroyAPIView):
             return Response({'status': str(e)}, status = HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+
 class CreateChannelPostView(ListCreateAPIView):
     # permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = ChannelPost.objects.all()
@@ -169,6 +171,7 @@ class DeleteChannelPostView(DestroyAPIView):
             return Response({'status':'Channel do not exist'}, status = HTTP_404_NOT_FOUND)
         except Exception as e: 
             return Response({'status': str(e)}, status = HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 class AddChnnelPostLikeView(APIView):

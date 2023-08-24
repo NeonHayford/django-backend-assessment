@@ -1,17 +1,19 @@
 from rest_framework import serializers
-from .models import Channel, ChannelProfile, ChannelPost, ChannelPostLikes
+from .models import Channel,  ChannelProfile, ChannelPost, ChannelPostLikes
 
 
 class ChannelSerializer(serializers.ModelSerializer):
-    id = serializers.UUIDField(required = False, read_only = True)
+    id = serializers.UUIDField(read_only = True)
 
     class Meta:
-        models = Channel
+        model = Channel
         fields = '__all__'
+
+        
 
 class ChannelProfileSerializer(serializers.ModelSerializer):
     class Meta:
-        models = ChannelProfile
+        model = ChannelProfile
         fields = '__all__'
 
 
@@ -22,12 +24,13 @@ class PostLikesSerializer(serializers.ModelSerializer):
 
 
 class ChannelPostSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only = True)
     channel_image = serializers.ImageField(required=False)
     channel_video = serializers.FileField(required=False)
     like_post = serializers.SerializerMethodField()
 
     class Meta:
-        models = ChannelPost
+        model = ChannelPost
         fields = '__all__'
 
 
