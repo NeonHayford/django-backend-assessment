@@ -11,7 +11,7 @@ from rest_framework import filters
 class FollowersView(CreateAPIView):
     # permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = FollowerSerializer
-    filter_backends = [filters.SearchFilter]  # Add SearchFilter to filter_backends
+    filter_backends = [filters.SearchFilter]
     search_fields = ['user']
     
     def post(self, request):
