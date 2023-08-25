@@ -20,7 +20,7 @@ class ChatMessageSerializer(serializers.Serializer):
         fields = '__all__'
 
     def get_like_post(self, post):
-        user = self.context['request'].user
+        user = self.member['request'].user
         message_like = ChatMessage.objects.filter(post=post, liker=user).exists()
         return message_like
     

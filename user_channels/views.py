@@ -27,8 +27,7 @@ class CreateChannelView(ListCreateAPIView):
             # return Response(serializer.errors, status=HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
-        except Channel.DoesNotExist:
-            return Response(serializer.errors, status=HTTP_404_NOT_FOUND)
+        
 
 class UpateChannelView(UpdateAPIView):
     # permission_classes = [IsAuthenticatedOrReadOnly]
@@ -92,8 +91,7 @@ class CreateChannelProfileView(ListCreateAPIView):
                 return Response(serializer.data, status=HTTP_200_OK)
         except Exception as e:
             return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
-        except Channel.DoesNotExist:
-            return Response(serializer.errors, status=HTTP_404_NOT_FOUND)
+
 
 class UpateChannelProfileView(UpdateAPIView):
     # permission_classes = [IsAuthenticatedOrReadOnly]
@@ -128,6 +126,7 @@ class UpateChannelProfileView(UpdateAPIView):
         except Exception as e:
             return Response({'status': str(e)}, status = HTTP_500_INTERNAL_SERVER_ERROR)     
 
+
 class DeleteChannelProfileView(DestroyAPIView):
     def delete(self, request, image, author):
         try:
@@ -157,8 +156,7 @@ class CreateChannelPostView(ListCreateAPIView):
             return Response(serializer.errors, status=HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
-        except ChannelPost.DoesNotExist:
-            return Response(serializer.errors, status=HTTP_404_NOT_FOUND)
+
 
 class DeleteChannelPostView(DestroyAPIView):
     queryset = ChannelPost.objects.all()
