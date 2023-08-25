@@ -5,9 +5,11 @@ from rest_framework.views import APIView
 from .serializers import UserProfileSerializer
 from .models import UserProfile
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_404_NOT_FOUND
+from rest_framework.status import *
 from rest_framework.filters import SearchFilter
 from rest_framework.generics import ListCreateAPIView
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 # Create your views here.
 class LogoutView(LogoutView):
@@ -21,7 +23,8 @@ class CreateUserProfileView(ListCreateAPIView):
     serializer_class = UserProfileSerializer
     filter_backends = [SearchFilter]
     search_fields = ['user']
-
+    
+    @method_decorator(cache_page(60*60*24))
     def post(self, request):
         try:
             serializer = UserProfileSerializer(data = request.data)
@@ -32,6 +35,7 @@ class CreateUserProfileView(ListCreateAPIView):
             return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
         
 class UpdateUserProfileView(APIView):
+    @method_decorator(cache_page(60*60*24))
     def put(self,request, pk):
         try:
             profile = UserProfile.objects.get(id = pk)
@@ -43,7 +47,8 @@ class UpdateUserProfileView(APIView):
         except Exception as e: return Response({'error': str(e)}, status = HTTP_500_INTERNAL_SERVER_ERROR)
         except profile.DoesNotExist:
             return Response({'error': 'Profile image was not added; Add Profile Image!'}, status= HTTP_404_NOT_FOUND)
-
+        
+    @method_decorator(cache_page(60*60*24))
     def patch(self,request, pk):
         try:
             profile = UserProfile.objects.get(id=pk)

@@ -10,7 +10,7 @@ class Channel(models.Model):
     Channel_name = models.CharField(max_length=100)
     description = models.TextField(max_length=300)
     member= models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='multiple_users')
-    author = models.ForeignKey( AUTH_USER_MODEL, on_delete= models.CASCADE,related_name = 'user_group')
+    author = models.ForeignKey( AUTH_USER_MODEL, on_delete= models.CASCADE,related_name = 'user_channels')
     created_date = models.DateTimeField(auto_now_add=datetime.now())
     updated_at = models.DateTimeField(auto_now=True)
 

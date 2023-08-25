@@ -2,29 +2,29 @@ from django.db import models
 # from django.contrib.auth.models import User
 from  core.settings import AUTH_USER_MODEL
 from datetime import datetime, date
+from uuid import uuid4
 
 # Create your models here.
-class GroupProfile(models.Model):
-    chat_profile = models.ImageField(upload_to='chat_profile/%h.jpg')
-    owner = models.ForeignKey(AUTH_USER_MODEL, on_delete= models.CASCADE,related_name = 'user_group')
-
 class Group(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
     group_name = models.CharField(max_length=100)
     description = models.TextField(max_length=300)
-    member= models.ManyToManyField(AUTH_USER_MODEL, related_name='multiple_users')
-    groups = models.ForeignKey(GroupProfile, on_delete=models.CASCADE, related_name = 'group_profile')
-    created_date = models.DateTimeField(auto_now_add=datetime.now())
+    member= models.ManyToManyField(AUTH_USER_MODEL, related_name='group_multiple_users')
+    chat_profile = models.ImageField(upload_to='chat_profile/%h.jpg')
+    author = models.ForeignKey(AUTH_USER_MODEL, on_delete= models.CASCADE,related_name = 'user_group')
+    created_at = models.DateTimeField(auto_now_add=datetime.now())
+    updated_at = models.DateTimeField(auto_now=True)
 
 
-class Chat_message(models.Model):
+class ChatMessage(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
     community = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='chat_group')
     content = models.TextField()
     image = models.ImageField(upload_to='post_images/user_{0}/%m%d%y'.format(AUTH_USER_MODEL.join('cmimg')), null=True, blank=True)
     video = models.FileField(upload_to='post_videos/user_{0}/%m%d%y'.format(AUTH_USER_MODEL.join('cmvid')), null=True, blank=True) #topic mist contains text, image, document, audio, etc
     like_post = models.ManyToManyField(AUTH_USER_MODEL, blank=True)
-    author = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'author_of_chat')
-    created_date = models.DateTimeField(auto_now= date.today)
-    modified_date = models.DateTimeField(auto_now = datetime.now())
+    author = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'author_of_group_chat')
+    created_date = models.DateTimeField(auto_now_add= datetime.now())
 
     @property
     def image(self):
@@ -40,12 +40,13 @@ class Chat_message(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
-    chat = models.ForeignKey(Chat_message, on_delete= models.CASCADE)
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    author = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments_author')
+    chat = models.ForeignKey(ChatMessage, on_delete= models.CASCADE)
     message = models.TextField()
     image = models.ImageField(upload_to='post_images/user_{0}/%m%d%y/comment'.format(AUTH_USER_MODEL.join('cmimg')), null=True, blank=True)
     video = models.FileField(upload_to='post_videos/user_{0}/%m%d%y/comment'.format(AUTH_USER_MODEL.join('cmvid')), null=True, blank=True)
-    like_post = models.ManyToManyField(AUTH_USER_MODEL, blank=True)
+    like_post = models.ManyToManyField(AUTH_USER_MODEL, blank=True, related_name='group_comment_likes')
     created_date = models.DateTimeField(auto_now_add=True)
 
     @property
@@ -59,7 +60,8 @@ class Comment(models.Model):
 
 
 class Reply(models.Model):
-    chat = models.ForeignKey(Chat_message, on_delete= models.CASCADE)
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    chat = models.ForeignKey(ChatMessage, on_delete= models.CASCADE)
     message = models.TextField()
     image = models.ImageField(upload_to='post_images/user_{0}/%m%d%y/reply'.format(AUTH_USER_MODEL.join('cmimg')), null=True, blank=True)
     video = models.FileField(upload_to='post_videos/user_{0}/%m%d%y/reply'.format(AUTH_USER_MODEL.join('cmvid')), null=True, blank=True)

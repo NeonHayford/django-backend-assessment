@@ -13,6 +13,7 @@ pymupdf = "*"
 pillow = "*"
 django-rest-framework = "*"
 django-rest-auth = "*"
+django-redis = "*"
 
 [dev-packages]
 

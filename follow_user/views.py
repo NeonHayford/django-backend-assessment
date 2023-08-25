@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.generics import CreateAPIView
 from rest_framework import filters
 
+
 # Create your views here.
 class FollowersView(CreateAPIView):
     # permission_classes = [IsAuthenticatedOrReadOnly]

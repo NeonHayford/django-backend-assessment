@@ -6,6 +6,8 @@ from .models import Channel, ChannelProfile, ChannelPost, ChannelPostLikes
 from rest_framework.response import Response
 from rest_framework.status import *
 from rest_framework.views import APIView
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 
 # Create your views here.
@@ -81,6 +83,7 @@ class CreateChannelProfileView(ListCreateAPIView):
     filter_backends = [SearchFilter]
     search_fields = ['channel_name']
 
+    
     def post(self, request):
         try:
             serializer = ChannelProfileSerializer(data = request.data)
@@ -97,6 +100,7 @@ class UpateChannelProfileView(UpdateAPIView):
     queryset = ChannelProfile.objects.all()
     serializer_class = ChannelProfileSerializer
 
+    @method_decorator(cache_page(60*60*24))
     def put(self, request, image, author):
         try:
             channel = ChannelProfile.objects.get(id=image, author_id=author)
@@ -110,6 +114,7 @@ class UpateChannelProfileView(UpdateAPIView):
         except Exception as e:
             return Response({'status': str(e)}, status = HTTP_500_INTERNAL_SERVER_ERROR)
 
+    @method_decorator(cache_page(60*60*24))
     def patch(self, request, image, author):
         try:
             channel = ChannelProfile.objects.get(id=image, author_id=author)

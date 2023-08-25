@@ -111,6 +111,17 @@ DATABASES = {
     }
 }
 
+# REDIS Configuration
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://localhost:6379/",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            # "PASSWORD": "mysecret"
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -168,3 +179,10 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
 ]
+
+# REDIS Configuration
+# REDIS_HOST = 'localhost'
+
+# REDIS_PORT = 6379
+
+
