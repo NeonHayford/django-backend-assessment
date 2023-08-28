@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+django-cors-headers = "*"
+djoser = "*"
+djangorestframework = "*"
+django-utils-six = "*"
+pymupdf = "*"
+pillow = "*"
+django-rest-framework = "*"
+django-rest-auth = "*"
+django-redis = "*"
+drf-yasg = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
