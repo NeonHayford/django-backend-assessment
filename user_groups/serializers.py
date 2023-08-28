@@ -44,12 +44,12 @@ class ReplySerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
     image = serializers.ImageField(required=False)
     video = serializers.FileField(required=False)
-    like_post = serializers.SerializerMethodField()
+    likes = serializers.SerializerMethodField()
     class Meta:
         model = Reply
         fields = '__all__'
 
-    def get_like_post(self, post):
+    def get_likes(self, post):
         user = self.context['request'].user
         comment_like = Reply.objects.filter(post=post, liker=user).exists()
         return comment_like

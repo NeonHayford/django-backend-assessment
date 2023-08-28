@@ -28,7 +28,6 @@ class CreateChannelView(ListCreateAPIView):
         except Exception as e:
             return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
         
-
 class UpateChannelView(UpdateAPIView):
     # permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Channel.objects.all()
@@ -99,10 +98,10 @@ class UpateChannelProfileView(UpdateAPIView):
     serializer_class = ChannelProfileSerializer
 
     @method_decorator(cache_page(60*60*24))
-    def put(self, request, image, author):
+    def put(self, request, image_id, channel_id):
         try:
-            channel = ChannelProfile.objects.get(id=image, author_id=author)
-            serializer = ChannelProfileSerializer(ChannelProfile, data = request.data)
+            channel = ChannelProfile.objects.get(id=image_id, channel_id=channel_id)
+            serializer = ChannelProfileSerializer(channel, data = request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status= HTTP_200_OK)
@@ -113,24 +112,24 @@ class UpateChannelProfileView(UpdateAPIView):
             return Response({'status': str(e)}, status = HTTP_500_INTERNAL_SERVER_ERROR)
 
     @method_decorator(cache_page(60*60*24))
-    def patch(self, request, image, author):
+    def patch(self, request, image_id, channel_id):
         try:
-            channel = ChannelProfile.objects.get(id=image, author_id=author)
-            serializer = ChannelProfileSerializer(ChannelProfile, data = request.data, partial = True)
+            channel = ChannelProfile.objects.get(id=image_id, channel_id=channel_id)
+            serializer = ChannelProfileSerializer(channel, data = request.data, partial = True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status= HTTP_200_OK)
             return Response(serializer.errors, status= HTTP_400_BAD_REQUEST)
-        except Channel.DoesNotExist:
+        except ChannelProfile.DoesNotExist:
             return Response({'status': 'Channel profile does not exist'}, status= HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'status': str(e)}, status = HTTP_500_INTERNAL_SERVER_ERROR)     
 
 
 class DeleteChannelProfileView(DestroyAPIView):
-    def delete(self, request, image, author):
+    def delete(self, request, image_id, channel_id):
         try:
-            channel = ChannelProfile.objects.get(id=image, author_id=author)
+            channel = ChannelProfile.objects.get(id=image_id, channel_id=channel_id)
             if channel:
                 channel.delete()
                 return Response({'success': 'Channel profile have been deleted successfully'}, status=HTTP_204_NO_CONTENT)
@@ -177,22 +176,20 @@ class DeleteChannelPostView(DestroyAPIView):
 
 
 
-class AddChnnelPostLikeView(APIView):
+class AddChannelPostLikeView(ListCreateAPIView):
     # permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = ChannelPostLikes.objects.all()
+    serializer_class = PostLikesSerializer
 
-    def put(self, request, likes):
+    def  post(self, request, *args, **kwargs):
         try:
-            channel = ChannelPostLikes.objects.get(id=likes)
-            serializer = PostLikesSerializer(channel, data = request.data)
+            serializer = PostLikesSerializer(data = request.data)
             if serializer.is_valid():
-                ChannelPostLikes.post = ChannelPostLikes.post['likes'] + 1
                 serializer.save()
-                return Response(serializer.data, status= HTTP_200_OK)
-            return Response(serializer.errors, status= HTTP_404_NOT_FOUND)
-        except ChannelPostLikes.DoesNotExist:
-            return Response({'status': 'Channel profile does not exist'}, status= HTTP_404_NOT_FOUND)
+                return Response(serializer.data, status=HTTP_200_OK)
+            return Response(serializer.errors, status=HTTP_404_NOT_FOUND)
         except Exception as e:
-            return Response({'status': str(e)}, status = HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class RemoveChannelPostLikeView(APIView):
@@ -201,11 +198,12 @@ class RemoveChannelPostLikeView(APIView):
     def delete(self, request, likes):
         try:
             post = ChannelPostLikes.objects.get(id=likes)
-            ChannelPostLikes.post = ChannelPostLikes.post['likes'] - 1
-            post.delete() 
-            return Response({'success': 'Channel profile have been deleted successfully'}, status=HTTP_204_NO_CONTENT)
+            if post:
+                post.delete()
+                return Response({'success': 'likes post have been deleted successfully'}, status=HTTP_204_NO_CONTENT)
+            return Response({'error': 'Channel profile was not add to the channel'}, status = HTTP_404_NOT_FOUND)
         except ChannelPostLikes.DoesNotExist:
-            return Response({'status':'Channel do not exist'}, status = HTTP_404_NOT_FOUND)
+            return Response({'status':'likes post do not exist'}, status = HTTP_404_NOT_FOUND)
         except Exception as e: 
             return Response({'status': str(e)}, status = HTTP_500_INTERNAL_SERVER_ERROR)
 

@@ -19,8 +19,8 @@ class ChatMessage(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
     community = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='chat_group')
     content = models.TextField()
-    image = models.ImageField(upload_to='post_images/user_{0}/%m%d%y'.format(AUTH_USER_MODEL.join('cmimg')), null=True, blank=True)
-    video = models.FileField(upload_to='post_videos/user_{0}/%m%d%y'.format(AUTH_USER_MODEL.join('cmvid')), null=True, blank=True) #topic mist contains text, image, document, audio, etc
+    image = models.ImageField(upload_to='post_images/user_chatmsg/%m%d%y', null=True, blank=True)
+    video = models.FileField(upload_to='post_videos/user_chatmsg/%m%d%y'.format(AUTH_USER_MODEL.join('cmvid')), null=True, blank=True) #topic mist contains text, image, document, audio, etc
     like_post = models.ManyToManyField(AUTH_USER_MODEL, blank=True)
     author = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'author_of_group_chat')
     created_date = models.DateTimeField(auto_now_add= datetime.now())
@@ -43,8 +43,8 @@ class Comment(models.Model):
     author = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='comments_author')
     chat = models.ForeignKey(ChatMessage, on_delete= models.CASCADE)
     message = models.TextField()
-    image = models.ImageField(upload_to='post_images/user_{0}/%m%d%y/comment'.format(AUTH_USER_MODEL.join('cmimg')), null=True, blank=True)
-    video = models.FileField(upload_to='post_videos/user_{0}/%m%d%y/comment'.format(AUTH_USER_MODEL.join('cmvid')), null=True, blank=True)
+    image = models.ImageField(upload_to='post_images/user_commentmsg/%m%d%y/comment', null=True, blank=True)
+    video = models.FileField(upload_to='post_videos/user_commentmsg/%m%d%y/comment', null=True, blank=True)
     like_post = models.ManyToManyField(AUTH_USER_MODEL, blank=True, related_name='group_comment_likes')
     created_date = models.DateTimeField(auto_now_add=True)
 
@@ -62,8 +62,8 @@ class Reply(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
     chat = models.ForeignKey(ChatMessage, on_delete= models.CASCADE)
     message = models.TextField()
-    image = models.ImageField(upload_to='post_images/user_{0}/%m%d%y/reply'.format(AUTH_USER_MODEL.join('cmimg')), null=True, blank=True)
-    video = models.FileField(upload_to='post_videos/user_{0}/%m%d%y/reply'.format(AUTH_USER_MODEL.join('cmvid')), null=True, blank=True)
+    image = models.ImageField(upload_to='post_images/user_replymsg/%m%d%y/reply', null=True, blank=True)
+    video = models.FileField(upload_to='post_videos/user_replymsg/%m%d%y/reply', null=True, blank=True)
     like_post = models.ManyToManyField(AUTH_USER_MODEL, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
 

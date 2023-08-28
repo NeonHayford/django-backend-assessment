@@ -27,21 +27,14 @@ class ChannelPostSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only = True)
     channel_image = serializers.ImageField(required=False)
     channel_video = serializers.FileField(required=False)
-    like_post = serializers.SerializerMethodField()
+    likes = serializers.SerializerMethodField()
 
     class Meta:
         model = ChannelPost
         fields = '__all__'
+        # depth = 5
 
 
-    def get_like_post(self, post):
-        user = self.context['request'].user
-        query = ChannelPostLikes.objects.filter(post=post, liker=user).exists()
+    def get_likes(self, post_id):
+        query = ChannelPostLikes.objects.filter(post_id=post_id).exists()
         return query
-
-# image
-# allow_emptyfile = False
-# allow_null = False
-# use_url = True
-# required = False
-# max_length = None
