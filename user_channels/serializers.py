@@ -36,5 +36,5 @@ class ChannelPostSerializer(serializers.ModelSerializer):
 
 
     def get_likes(self, post_id):
-        query = ChannelPostLikes.objects.filter(post_id=post_id).exists()
+        query = ChannelPostLikes.objects.filter(post_id=post_id).count()
         return query
