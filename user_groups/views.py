@@ -74,7 +74,7 @@ class CreateChatMessageView(ListCreateAPIView):
     queryset = ChatMessage.objects.all()
     serializer_class = MessageSerializer
     filter_backends = [SearchFilter]
-    search_fields = ['content', 'author', 'community']
+    search_fields = ['content', 'author']
 
     def post(self, request):
         try:

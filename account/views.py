@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.authentication import TokenAuthentication
 from rest_auth.views import LogoutView
 from rest_framework.views import APIView
@@ -10,6 +9,7 @@ from rest_framework.filters import SearchFilter
 from rest_framework.generics import ListCreateAPIView
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 # Create your views here.
 class LogoutView(LogoutView):
@@ -18,7 +18,7 @@ class LogoutView(LogoutView):
 
 
 class CreateUserProfileView(ListCreateAPIView):
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializer
     filter_backends = [SearchFilter]

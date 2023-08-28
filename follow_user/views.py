@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.views import APIView
 from .serializers import FollowerSerializer
 from rest_framework.response import Response
@@ -10,7 +9,7 @@ from rest_framework import filters
 
 # Create your views here.
 class FollowersView(CreateAPIView):
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = FollowerSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['user']

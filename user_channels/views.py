@@ -8,11 +8,12 @@ from rest_framework.status import *
 from rest_framework.views import APIView
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
 # Create your views here.
 class CreateChannelView(ListCreateAPIView):
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Channel.objects.all()
     serializer_class = ChannelSerializer
     filter_backends = [SearchFilter]
@@ -24,7 +25,7 @@ class CreateChannelView(ListCreateAPIView):
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=HTTP_200_OK)
-            # return Response(serializer.errors, status=HTTP_404_NOT_FOUND)
+            return Response(serializer.errors, status=HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
         
@@ -75,7 +76,7 @@ class DeleteChannelView(DestroyAPIView):
 
 
 class CreateChannelProfileView(ListCreateAPIView):
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = ChannelProfile.objects.all()
     serializer_class = ChannelProfileSerializer
     filter_backends = [SearchFilter]
@@ -93,7 +94,7 @@ class CreateChannelProfileView(ListCreateAPIView):
 
 
 class UpateChannelProfileView(UpdateAPIView):
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = ChannelProfile.objects.all()
     serializer_class = ChannelProfileSerializer
 
@@ -142,7 +143,7 @@ class DeleteChannelProfileView(DestroyAPIView):
 
 
 class CreateChannelPostView(ListCreateAPIView):
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = ChannelPost.objects.all()
     serializer_class = ChannelPostSerializer
 
@@ -159,7 +160,7 @@ class CreateChannelPostView(ListCreateAPIView):
 
 class DeleteChannelPostView(DestroyAPIView):
     queryset = ChannelPost.objects.all()
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = ChannelPostSerializer
 
     def delete(self, request, post_id):
@@ -177,7 +178,7 @@ class DeleteChannelPostView(DestroyAPIView):
 
 
 class AddChannelPostLikeView(ListCreateAPIView):
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = ChannelPostLikes.objects.all()
     serializer_class = PostLikesSerializer
 
@@ -193,7 +194,7 @@ class AddChannelPostLikeView(ListCreateAPIView):
 
 
 class RemoveChannelPostLikeView(APIView):
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def delete(self, request, likes):
         try:
