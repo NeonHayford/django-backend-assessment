@@ -14,7 +14,7 @@ urlpatterns = [
 
     # Message likes from users
     path('group/message/likes', CreateMessageLikesView.as_view(), name='like_group_message'),
-    path('group/<str:likes>/message/likes', DeleteMessageLikesView.as_view(), name='delete_group_message'),
+    path('group/<str:pk>/message/<str:message_id>/likes', DeleteMessageLikesView.as_view(), name='delete_group_message'),
 
     # Group Comments
     path('group/comment', CreateCommentView.as_view(), name='create_group_comment'),
@@ -22,7 +22,7 @@ urlpatterns = [
 
     # Comment likes from users
     path('group/comment/likes', CreateCommentLikesView.as_view(), name='like_group_comment'),
-    path('group/<str:likes>/comment/likes', DeleteCommentLikesView.as_view(), name='delete_group_comment'),
+    path('group/<str:id>/comment/<str:message_id>/likes', DeleteCommentLikesView.as_view(), name='delete_group_comment'),
 
     # Group Reply
     path('group/comment', CreateReplyView.as_view(), name='create_group_comment'),
@@ -30,5 +30,5 @@ urlpatterns = [
 
     # Reply likes from users
     path('group/reply/likes', CreateReplyLikesView.as_view(), name='like_group_reply'),
-    path('group/<str:likes>/reply/likes', DeleteReplyLikesView.as_view(), name='delete_group_reply'),
+    path('group/<str:pk>/reply/<str:message_id>/likes', DeleteReplyLikesView.as_view(), name='delete_group_reply')
 ]

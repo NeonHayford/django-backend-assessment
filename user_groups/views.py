@@ -181,9 +181,9 @@ class CreateMessageLikesView(ListCreateAPIView):
             return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
         
 class DeleteMessageLikesView(DestroyAPIView):
-    def delete(self, request, pk, chatmessage_id):
+    def delete(self, request, pk, message_id):
         try:
-            group = MessageLikes.objects.get(id=pk, chatmessage_id=chatmessage_id)
+            group = MessageLikes.objects.get(id=pk, chatmessage_id=message_id)
             if group:
                 group.delete()
                 return Response({'success': 'Group-Chat message have been deleted successfully'}, status=HTTP_204_NO_CONTENT)
