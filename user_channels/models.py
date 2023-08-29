@@ -22,7 +22,7 @@ class ChannelProfile(models.Model):
 
 
     def __str__(self):
-        return f'{self.channel.Channel_name} {self.channel.id}'
+        return self.channel.Channel_name
     
 
 
