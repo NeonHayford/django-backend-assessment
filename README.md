@@ -1,4 +1,4 @@
-# react-drf
+# Django Backend Assessment
 - Creating Rest API for a social media application that allows users to share text, images, and videos, interact with each other's content, join groups, and more.
 
 
